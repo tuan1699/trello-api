@@ -1,0 +1,44 @@
+{
+  "name": "trello-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "eslint": "eslint src",
+    "build-babel": "babel ./src -d ./build/src",
+    "build": "npm run clean && npm run build-babel",
+    "production": "npm run build && node ./build/src/server.js",
+    "remove-build": "rmdir /s /q build",
+    "create-build": "mkdir build",
+    "clean": "npm run remove-build && npm run create-build",
+    "dev": "nodemon --exec ./node_modules/.bin/babel-node ./src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tuan1699/trello-api.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tuan1699/trello-api/issues"
+  },
+  "homepage": "https://github.com/tuan1699/trello-api#readme",
+  "dependencies": {
+    "@babel/runtime": "^7.21.0",
+    "dotenv": "^16.0.3",
+    "eslint": "^8.34.0",
+    "express": "^4.18.2",
+    "mongodb": "^5.0.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.21.0",
+    "@babel/core": "^7.21.0",
+    "@babel/eslint-parser": "^7.19.1",
+    "@babel/node": "^7.20.7",
+    "@babel/plugin-transform-runtime": "^7.21.0",
+    "@babel/preset-env": "^7.20.2",
+    "babel-plugin-module-resolver": "^5.0.0",
+    "nodemon": "^2.0.20"
+  }
+}

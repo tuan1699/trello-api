@@ -1,18 +1,35 @@
 import express from "express";
+import cors from "cors";
+import { corsOptions } from "*/config/cors";
 import { connectDB } from "*/config/mongodb";
 import { env } from "*/config/environment";
+import { apiV1 } from "*/routes/v1/index";
 
-const app = express();
+connectDB()
+  .then(() => console.log("Connected succesfully database server"))
+  .then(() => bootServer())
+  .catch((error) => {
+    console.log(error);
+    process.exit(1);
+  });
 
-const hostname = "localhost";
-const port = 8017;
+const bootServer = () => {
+  const app = express();
 
-connectDB().catch(console.log);
+  // const corsOptions = {
+  //   origin: "http://localhost:3000",
+  //   optionsSuccessStatus: 200,
+  // };
 
-app.get("/", (req, res) => {
-  res.end(`<h1>Hello world<h1/>, I'm running at ${env.HOST}:${env.PORT}/`);
-});
+  app.use(cors(corsOptions));
 
-app.listen(env.PORT, env.HOST, () => {
-  console.log(`Hello Tuan,I'm running at ${env.HOST}:${env.PORT}/`);
-});
+  // enable req.body data
+  app.use(express.json());
+
+  // use APIs v1
+  app.use("/v1", apiV1);
+
+  app.listen(env.APP_PORT, env.APP_HOST, () => {
+    console.log(`Hello Tuan,I'm running at ${env.APP_HOST}:${env.APP_PORT}/`);
+  });
+};

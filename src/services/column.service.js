@@ -1,5 +1,6 @@
 import { ColumnModel } from "*/models/column.model";
 import { BoardModel } from "*/models/board.model";
+import { CardModel } from "*/models/card.model";
 
 const createNew = async (data) => {
   try {
@@ -29,6 +30,11 @@ const update = async (id, data) => {
     if (updateData.cards) delete updateData.cards;
 
     const updatedColumn = await ColumnModel.update(id, updateData);
+
+    if (updatedColumn._destroy) {
+      CardModel.deleteMany(updatedColumn.cardOrder);
+    }
+
     return updatedColumn;
   } catch (error) {
     throw new Error(error);

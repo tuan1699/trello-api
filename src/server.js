@@ -16,11 +16,6 @@ connectDB()
 const bootServer = () => {
   const app = express();
 
-  // const corsOptions = {
-  //   origin: "http://localhost:3000",
-  //   optionsSuccessStatus: 200,
-  // };
-
   app.use(cors(corsOptions));
 
   // enable req.body data

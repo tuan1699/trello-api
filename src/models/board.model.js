@@ -31,6 +31,26 @@ const createNew = async (data) => {
   }
 };
 
+const update = async (id, data) => {
+  try {
+    const updateData = {
+      ...data,
+    };
+
+    const result = await getDb()
+      .collection(boardCollectionName)
+      .findOneAndUpdate(
+        { _id: ObjectId(id) },
+        { $set: updateData },
+        { returnOriginal: false }
+      ); // trả về bản ghi sau khi update
+
+    return result.value;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
 /**
  *
  * @param {string} boardId
@@ -60,6 +80,7 @@ const getFullBoard = async (boardId) => {
         {
           $match: {
             _id: ObjectId(boardId),
+            _destroy: false,
           },
         },
 
@@ -83,8 +104,6 @@ const getFullBoard = async (boardId) => {
       ])
       .toArray();
 
-    console.log(result);
-
     return result[0] || {};
   } catch (error) {
     console.log(error);
@@ -96,4 +115,5 @@ export const BoardModel = {
   createNew,
   getFullBoard,
   pushColumnOrder,
+  update,
 };

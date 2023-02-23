@@ -4,7 +4,6 @@ import { HttpStatusCode } from "*/utilities/constant";
 const createNew = async (req, res) => {
   try {
     const result = await columnService.createNew(req.body);
-    console.log(result);
 
     res.status(HttpStatusCode.OK).json(result);
   } catch (error) {

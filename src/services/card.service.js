@@ -18,4 +18,23 @@ const createNew = async (data) => {
   }
 };
 
-export const cardService = { createNew };
+const update = async (id, data) => {
+  try {
+    const updateData = {
+      ...data,
+      updateAt: Date.now(),
+    };
+
+    if (updateData._id) delete updateData._id;
+    // if (updateData.cards) delete updateData.cards;
+
+    const updatedCard = await CardModel.update(id, updateData);
+
+    return updatedCard;
+  } catch (error) {
+    console.log(error);
+    throw new Error(error);
+  }
+};
+
+export const cardService = { createNew, update };

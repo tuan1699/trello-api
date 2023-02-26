@@ -39,6 +39,28 @@ const createNew = async (data) => {
   }
 };
 
+const update = async (id, data) => {
+  try {
+    const updateData = { ...data };
+
+    if (data.boardId) updateData.boardId = ObjectId(data.boardId);
+    if (data.columnId) updateData.columnId = ObjectId(data.columnId);
+
+    const result = await getDb()
+      .collection(cardCollectionName)
+      .findOneAndUpdate(
+        { _id: ObjectId(id) },
+        { $set: updateData },
+        { returnOriginal: false }
+      ); // trả về bản ghi sau khi update
+
+    console.log(result);
+    return result.value;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
 const deleteMany = async (ids) => {
   try {
     const transformIds = ids.map((i) => ObjectId(i));
@@ -49,6 +71,7 @@ const deleteMany = async (ids) => {
 
     return result;
   } catch (error) {
+    console.log(error);
     throw new Error(error);
   }
 };
@@ -56,4 +79,5 @@ const deleteMany = async (ids) => {
 export const CardModel = {
   createNew,
   deleteMany,
+  update,
 };
